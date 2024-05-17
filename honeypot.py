@@ -10,6 +10,8 @@ logging.basicConfig(filename='honeypot.log', level=logging.INFO, format='%(ascti
 # Caricamento delle chiavi server per Paramiko
 host_key = paramiko.RSAKey(filename='test_rsa.key')
 
+# ---------------- REDEFINE PARAMIKO'S INTERFACE -------------------
+
 class Server(paramiko.ServerInterface):
     def __init__(self, source_addr=None):
         self.event = threading.Event()
@@ -25,6 +27,7 @@ class Server(paramiko.ServerInterface):
         logging.info(f"[{self.source_addr[0]}:{self.source_addr[1]}] Login attempted (username, password)=({username}, {password})")
         return paramiko.AUTH_FAILED
 
+# ---------------------- CONNECTION HANDLING ----------------------
 
 def handle_connection(client_sock, client_addr):
     transport = paramiko.Transport(client_sock)
@@ -51,6 +54,9 @@ def handle_connection(client_sock, client_addr):
             break
     channel.close()
 
+
+# ---------------------- MAIN ----------------------
+
 def main():
     server_ip = '0.0.0.0'
     server_port = 2222
@@ -71,5 +77,9 @@ def main():
         logging.info(f"Connection from {client_address}")
         threading.Thread(target=handle_connection, args=(client_socket, client_address)).start()
 
+# -----------------------------------------------------
+
 if __name__ == "__main__":
     main()
+
+# -----------------------------------------------------
