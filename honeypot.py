@@ -59,18 +59,18 @@ def main():
 
     try:
         # Socket creation
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   # AF_INET: IPv4, SOCK_STREAM: TCP
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)      # AF_INET: IPv4, SOCK_STREAM: TCP
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
-        server_socket.bind((server_ip, server_port))                        # bind the socket to the address
-        server_socket.listen(max_queued_connections)                                           # max number of queued connections
+        server_socket.bind((server_ip, server_port))                           # bind the socket to the address
+        server_socket.listen(max_queued_connections)                           # max number of queued connections
         logging.info(f"Server socket listening on {server_ip}:{server_port}")  # log the start of the honeypot
     except Exception as e:
         logging.error(f"Bind failed: {e}")
         sys.exit(1)
 
     while True:
-        client_socket, client_address = server_socket.accept()              # accept a connection
-        logging.info(f"Connection from {client_address}")                   # log the connection
+        client_socket, client_address = server_socket.accept()                  # accept a connection
+        logging.info(f"Connection from {client_address}")                       # log the connection
         threading.Thread(target=handle_connection, args=(client_socket, client_address)).start() # handle the connection in a new thread
 
 # -----------------------------------------------------
