@@ -20,7 +20,7 @@ class Server(paramiko.ServerInterface):
     def check_auth_password(self, username, password):
         # LOG HERE :) 
         # You can use self.source_addr to log the source IP and port (keep in ming that it is a tuple)
-        # logging.info(f"[{self.source_addr[0]}:{self.source_addr[1]}] Login attempted (username, password)=({username}, {password})")
+        logging.info(f"[{self.source_addr[0]}:{self.source_addr[1]}] Login attempted (username, password)=({username}, {password})")
         return paramiko.AUTH_FAILED             # Always return AUTH_FAILED to simulate a failed login
 
 # ---------------------- CONNECTION HANDLING ----------------------
